@@ -25,6 +25,8 @@ export ta_resample
 export ta_nan,
     return_type
 
+export timearray_from_table
+
 export START_OF_WINDOW,
     END_OF_WINDOW,
     ORIGIN_OF_WINDOW
@@ -37,6 +39,7 @@ export LABEL_LEFT,
 
 using Dates
 using Statistics
+import Tables
 
 struct TimeArraysError <: Exception
     message::String
@@ -87,5 +90,6 @@ include("reduce.jl")
 include("rolling.jl")
 include("resample.jl")
 include("sample_data.jl")
+include("tables.jl")
 
 end
