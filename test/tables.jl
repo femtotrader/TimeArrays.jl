@@ -66,7 +66,7 @@ import Tables
         simple_table = Tables.columntable([(timestamp=DateTime("2024-01-01"), value=10.0),
                                           (timestamp=DateTime("2024-01-02"), value=20.0)])
 
-        ta_from_table = TimeArrays.timearray_from_table(simple_table)
+        ta_from_table = TimeArray(simple_table)
         @test length(ta_from_table) == 2
         @test ta_timestamp(ta_from_table[1]) == DateTime("2024-01-01")
         @test ta_value(ta_from_table[1]) == 10.0
@@ -77,7 +77,7 @@ import Tables
         custom_table = Tables.columntable([(time=DateTime("2024-01-01"), price=100.0),
                                          (time=DateTime("2024-01-02"), price=200.0)])
 
-        ta_from_custom = TimeArrays.timearray_from_table(custom_table; timestamp=:time, value=:price)
+        ta_from_custom = TimeArray(custom_table; timestamp=:time, value=:price)
         @test length(ta_from_custom) == 2
         @test ta_timestamp(ta_from_custom[1]) == DateTime("2024-01-01")
         @test ta_value(ta_from_custom[1]) == 100.0
@@ -86,7 +86,7 @@ import Tables
     @testset "Round-trip conversion" begin
         # Convert TimeArray to table and back
         table_data = Tables.columntable(ta)
-        ta_roundtrip = TimeArrays.timearray_from_table(table_data)
+        ta_roundtrip = TimeArray(table_data)
 
         @test length(ta_roundtrip) == length(ta)
         for i in 1:length(ta)

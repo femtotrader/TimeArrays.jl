@@ -35,6 +35,16 @@ function Tables.getcolumn(ta::TimeArray, nm::Symbol)
     end
 end
 
+function Tables.getcolumn(ta::TimeArray, i::Int)
+    if i == 1
+        return [ta_timestamp(tick) for tick in ta_values(ta)]
+    elseif i == 2
+        return [ta_value(tick) for tick in ta_values(ta)]
+    else
+        throw(ArgumentError("TimeArray only has :timestamp and :value columns"))
+    end
+end
+
 Tables.columnnames(ta::TimeArray) = [:timestamp, :value]
 
 # Row access interface
@@ -55,33 +65,24 @@ function Base.iterate(iter::TimeArrayRowIterator, state=1)
     return (TimeArrayRow(ta_timestamp(tick), ta_value(tick)), state + 1)
 end
 
-struct TimeArrayRow{T,V}
+struct TimeArrayRow{T,V} <: Tables.AbstractRow
     timestamp::T
     value::V
 end
 
-Tables.getcolumn(row::TimeArrayRow, ::Type{T}, col::Int, nm::Symbol) where {T} =
+Tables.getcolumn(row::TimeArrayRow, ::Type, col::Int, nm::Symbol) =
     Tables.getcolumn(row, nm)
 
 function Tables.getcolumn(row::TimeArrayRow, nm::Symbol)
     if nm === :timestamp
-        return row.timestamp
+        return getfield(row, :timestamp)
     elseif nm === :value
-        return row.value
+        return getfield(row, :value)
     else
         throw(ArgumentError("TimeArray only has :timestamp and :value columns"))
     end
 end
 
+Tables.getcolumn(row::TimeArrayRow, i::Int) = getfield(row, i)
+
 Tables.columnnames(::TimeArrayRow) = [:timestamp, :value]
-
-# Helper function for creating TimeArray from Tables.jl sources
-function timearray_from_table(table; timestamp::Symbol=:timestamp, value::Symbol=:value)
-    Tables.istable(table) || throw(ArgumentError("Input is not a valid table"))
-
-    cols = Tables.columns(table)
-    timestamps = Tables.getcolumn(cols, timestamp)
-    values = Tables.getcolumn(cols, value)
-
-    return TimeArray(collect(timestamps), collect(values))
-end

@@ -25,8 +25,6 @@ export ta_resample
 export ta_nan,
     return_type
 
-export timearray_from_table
-
 export START_OF_WINDOW,
     END_OF_WINDOW,
     ORIGIN_OF_WINDOW

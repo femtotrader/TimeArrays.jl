@@ -285,7 +285,6 @@ function TimeArray(values::AbstractVector{TimeTick{T,V}}) where {T<:TimeLike,V}
 end
 
 """
-    TimeArray(iter)
     TimeArray{T,V}(iter)
 
 Creates a `TimeArray{T,V}` object from `iter` values and sorts them by date in ascending order.
@@ -301,14 +300,6 @@ julia> function Base.iterate(x::TimeTickIter, state = 1)
            return state <= x.state ? (TimeTick(state, state), state + 1) : nothing
        end;
 
-julia> TimeArray(TimeTickIter(5))
-5-element TimeArray{Int64, Int64}:
- TimeTick(1, 1)
- TimeTick(2, 2)
- TimeTick(3, 3)
- TimeTick(4, 4)
- TimeTick(5, 5)
-
 julia> TimeArray{Float64,Float64}(TimeTickIter(5))
 5-element TimeArray{Float64, Float64}:
  TimeTick(1.0, 1.0)
@@ -318,11 +309,6 @@ julia> TimeArray{Float64,Float64}(TimeTickIter(5))
  TimeTick(5.0, 5.0)
 ```
 """
-function TimeArray(iter)
-    t = map(item -> convert(TimeTick, item), iter)
-    return isempty(t) ? TimeArray{TimeLike,Any}() : TimeArray(t)
-end
-
 function TimeArray{T,V}(iter) where {T,V}
     t = map(item -> convert(TimeTick{T,V}, item), iter)
     return isempty(t) ? TimeArray{T,V}() : TimeArray{T,V}(t)
@@ -408,6 +394,46 @@ julia> TimeArray(timestamps, values)
 """
 function TimeArray(timestamp::AbstractVector{T}, values::AbstractVector{V}) where {T<:TimeLike,V}
     return TimeArray{T,V}(TimeTick{T,V}.(timestamp, values))
+end
+
+"""
+    TimeArray(x; timestamp::Symbol=:timestamp, value::Symbol=:value)
+
+Creates a `TimeArray` from a Tables.jl compatible source or from an iterable.
+
+When `x` is a Tables.jl compatible table:
+- `timestamp::Symbol`: Name of the timestamp column (default: `:timestamp`)
+- `value::Symbol`: Name of the value column (default: `:value`)
+
+When `x` is an iterable, the keyword arguments are ignored and elements are converted to `TimeTick`.
+
+## Examples
+```jldoctest
+julia> using Dates
+
+julia> # From Tables.jl source (requires DataFrames)
+       # using DataFrames
+       # df = DataFrame(timestamp=[Date(2024,1,1), Date(2024,1,2)], value=[1.0, 2.0]);
+       # TimeArray(df)
+
+julia> # From iterable
+       TimeArray([Date(2024,1,1) => 1.0, Date(2024,1,2) => 2.0])
+2-element TimeArray{Date, Float64}:
+ TimeTick(2024-01-01, 1.0)
+ TimeTick(2024-01-02, 2.0)
+```
+"""
+function TimeArray(x; timestamp::Symbol=:timestamp, value::Symbol=:value)
+    if Tables.istable(x)
+        cols = Tables.columns(x)
+        timestamps = Tables.getcolumn(cols, timestamp)
+        values = Tables.getcolumn(cols, value)
+        return TimeArray(collect(timestamps), collect(values))
+    else
+        # Fallback to iterator behavior
+        t = map(item -> convert(TimeTick, item), x)
+        return isempty(t) ? TimeArray{TimeLike,Any}() : TimeArray(t)
+    end
 end
 
 """
