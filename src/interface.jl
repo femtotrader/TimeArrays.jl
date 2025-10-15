@@ -405,7 +405,7 @@ When `x` is a Tables.jl compatible table:
 - `timestamp::Symbol`: Name of the timestamp column (default: `:timestamp`)
 - `value::Symbol`: Name of the value column (default: `:value`)
 
-When `x` is an iterable, the keyword arguments are ignored and elements are converted to `TimeTick`.
+Otherwise, when `x` is an iterable, the keyword arguments are ignored and elements are converted to `TimeTick`.
 
 ## Examples
 ```jldoctest
