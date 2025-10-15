@@ -78,7 +78,7 @@ custom_data = Tables.columntable([
     (time=DateTime("2024-01-01"), price=100.0),
     (time=DateTime("2024-01-02"), price=200.0)
 ])
-ta = timearray_from_table(custom_data; timestamp=:time, value=:price)
+ta = TimeArray(custom_data; timestamp=:time, value=:price)
 ```
 
 ### Round-trip Conversions
