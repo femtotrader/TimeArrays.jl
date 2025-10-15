@@ -230,7 +230,7 @@ Visualized with [LightweightCharts.jl](https://github.com/bhftbootcamp/Lightweig
 TimeArrays.jl provides seamless integration with the Tables.jl ecosystem, enabling easy interoperability with DataFrames, CSV files, and other tabular data formats.
 
 ```julia
-using TimeArrays, DataFrames, CSV
+using TimeArrays, DataFrames, CSV, Dates
 import Tables
 
 # Create a TimeArray
