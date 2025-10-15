@@ -102,7 +102,7 @@ using DataFrames
 df = DataFrame(ta)
 
 # DataFrame to TimeArray
-ta_from_df = timearray_from_table(df)
+ta_from_df = TimeArray(df)
 ```
 
 ## Integration with CSV.jl
