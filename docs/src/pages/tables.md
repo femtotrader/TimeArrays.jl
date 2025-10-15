@@ -87,7 +87,7 @@ ta = timearray_from_table(custom_data; timestamp=:time, value=:price)
 # TimeArray → Table → TimeArray
 original = TimeArray(timestamps, values)
 table_format = Tables.columntable(original)
-restored = timearray_from_table(table_format)
+restored = TimeArray(table_format)
 
 # Data is preserved
 original == restored  # true
