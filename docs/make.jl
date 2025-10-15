@@ -21,6 +21,7 @@ makedocs(
             "pages/array.md",
             "pages/rolling.md",
             "pages/resample.md",
+            "pages/tables.md",
         ],
         "For Developers" => [
             "pages/custom_types.md",

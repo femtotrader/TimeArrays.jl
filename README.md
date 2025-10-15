@@ -225,6 +225,33 @@ julia> ta_resample(ohlc, prices, Hour(2); closed = CLOSED_RIGHT, label = LABEL_R
 Visualized with [LightweightCharts.jl](https://github.com/bhftbootcamp/LightweightCharts.jl).
 </div>
 
+## Tables.jl Integration
+
+TimeArrays.jl provides seamless integration with the Tables.jl ecosystem, enabling easy interoperability with DataFrames, CSV files, and other tabular data formats.
+
+```julia
+using TimeArrays, DataFrames, CSV, Dates
+import Tables
+
+# Create a TimeArray
+ta = TimeArray([DateTime("2024-01-01"), DateTime("2024-01-02")], [1.0, 2.0])
+
+# Convert to DataFrame
+df = DataFrame(ta)
+
+# Convert to any Tables.jl-compatible format
+table_data = Tables.columntable(ta)
+
+# Create TimeArray from table data
+ta_restored = TimeArray(table_data)
+
+# Save to and load from CSV
+CSV.write("data.csv", ta)
+ta_from_csv = TimeArray(CSV.File("data.csv"))
+```
+
+For more details, see the [Tables.jl integration documentation](https://bhftbootcamp.github.io/TimeArrays.jl/stable/pages/tables/).
+
 ## Contributing
 
 Contributions to TimeArrays are welcome! If you encounter a bug, have a feature request, or would like to contribute code, please open an issue or a pull request on GitHub.

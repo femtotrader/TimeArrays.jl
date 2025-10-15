@@ -37,6 +37,7 @@ export LABEL_LEFT,
 
 using Dates
 using Statistics
+import Tables
 
 struct TimeArraysError <: Exception
     message::String
@@ -87,5 +88,6 @@ include("reduce.jl")
 include("rolling.jl")
 include("resample.jl")
 include("sample_data.jl")
+include("tables.jl")
 
 end
