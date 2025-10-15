@@ -71,7 +71,7 @@ table_data = Tables.columntable([
     (timestamp=DateTime("2024-01-01"), value=10.0),
     (timestamp=DateTime("2024-01-02"), value=20.0)
 ])
-ta = timearray_from_table(table_data)
+ta = TimeArray(table_data)
 
 # From a table with custom column names
 custom_data = Tables.columntable([
