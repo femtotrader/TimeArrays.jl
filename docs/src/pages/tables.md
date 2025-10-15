@@ -63,7 +63,7 @@ end
 
 ### Creating TimeArrays from Tables
 
-Use the `timearray_from_table` function to create TimeArrays from any Tables.jl-compatible source:
+Use the `TimeArray` constructor to create TimeArrays from any Tables.jl-compatible source:
 
 ```julia
 # From a table with default column names
