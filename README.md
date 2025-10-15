@@ -243,7 +243,7 @@ df = DataFrame(ta)
 table_data = Tables.columntable(ta)
 
 # Create TimeArray from table data
-ta_restored = timearray_from_table(table_data)
+ta_restored = TimeArray(table_data)
 
 # Save to and load from CSV
 CSV.write("data.csv", ta)
