@@ -247,7 +247,7 @@ ta_restored = TimeArray(table_data)
 
 # Save to and load from CSV
 CSV.write("data.csv", ta)
-ta_from_csv = timearray_from_table(CSV.File("data.csv"))
+ta_from_csv = TimeArray(CSV.File("data.csv"))
 ```
 
 For more details, see the [Tables.jl integration documentation](https://bhftbootcamp.github.io/TimeArrays.jl/stable/pages/tables/).
