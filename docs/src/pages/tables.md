@@ -114,7 +114,7 @@ using CSV
 CSV.write("data.csv", ta)
 
 # Load TimeArray from CSV
-ta_from_csv = timearray_from_table(CSV.File("data.csv"))
+ta_from_csv = TimeArray(CSV.File("data.csv"))
 ```
 
 ## Performance Notes
